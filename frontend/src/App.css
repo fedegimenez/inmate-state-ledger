@@ -1,0 +1,57 @@
+:root{
+  --bg:#0f141a; --panel:#151b23; --muted:#9aa5b1; --text:#e6edf3; --brand:#3b82f6; --ok:#22c55e; --bad:#ef4444;
+  --border:#263241;
+}
+
+*{box-sizing:border-box}
+html,body,#root{height:100%}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",sans-serif}
+
+/* Layout */
+.wrap{max-width:auto;margin:0 auto;padding:20px}
+header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+h1{font-size:20px;margin:0}
+.toolbar select{background:var(--panel);color:var(--text);border:1px solid var(--border);padding:8px 10px;border-radius:8px}
+
+.grid{display:grid;gap:16px;grid-template-columns:280px 1fr}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px}
+@media (max-width:1500px){ .grid{grid-template-columns:1fr} }
+
+.actions .action{border:1px dashed var(--border);border-radius:10px;padding:12px;margin-bottom:12px}
+.actions input{width:100%;margin:6px 0;padding:8px;border-radius:8px;border:1px solid var(--border);background:#0c1117;color:var(--text)}
+.actions button{width:100%;padding:8px 10px;border:0;border-radius:10px;background:var(--brand);color:white;cursor:pointer}
+.ok{color:var(--ok)} .bad{color:var(--bad)}
+
+.row{display:flex;gap:8px;margin-bottom:12px}
+.row input{flex:1;padding:10px;border-radius:10px;border:1px solid var(--border);background:#0c1117;color:var(--text)}
+.row button{padding:10px 14px;border:0;border-radius:10px;background:var(--brand);color:white;cursor:pointer}
+
+/* Pills + meta */
+.state{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.pill{background:#0c1117;border:1px solid var(--border);padding:6px 10px;border-radius:999px;color:var(--muted);font-size:12px}
+
+.meta-grid{margin-top:8px;display:grid;gap:6px;grid-template-columns:1fr}
+@media (min-width:900px){ .meta-grid{grid-template-columns:1fr 1fr} }
+
+/* Tipografías y truncados */
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.wrap-text{white-space:normal;word-break:normal;overflow-wrap:anywhere}
+.wrap-hash{white-space:normal;word-break:break-all;overflow-wrap:anywhere}
+
+/* Tabla */
+table.ledger{width:100%;border-collapse:collapse}
+table.ledger thead th{font-weight:600;text-align:left;border-bottom:1px solid var(--border);padding:8px 10px;white-space:nowrap}
+table.ledger td{padding:8px 10px;border-bottom:1px solid #1b2430;vertical-align:top}
+table.ledger .col-id{width:6ch}
+table.ledger .col-tipo{width:18ch}
+table.ledger .col-fecha{width:18ch}
+table.ledger .col-estado{width:14ch}
+table.ledger .col-desc{width:40%}
+table.ledger .col-emisor{width:35%}
+table.ledger .col-hash{width: 45%}
+
+/* Evitar estirar el contenedor por contenidos largos */
+.card{overflow-x:auto}
+
+/* Footer */
+footer{margin-top:16px;color:var(--muted);font-size:12px}
