@@ -1,4 +1,4 @@
-const API = "http://localhost:4000/api";
+const API = "http://localhost:3001/api";
 
 export async function getInterno(id) {
   const r = await fetch(`${API}/interno/${encodeURIComponent(id)}`);
