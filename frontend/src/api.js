@@ -1,40 +1,39 @@
-const API = "http://localhost:3001/api";
+// src/api.js (ejemplo)
+const BASE = "http://localhost:4000";
 
-export async function getInterno(id) {
-  const r = await fetch(`${API}/interno/${encodeURIComponent(id)}`);
-  return r.json();
-}
-
-async function post(path, body) {
-  const r = await fetch(`${API}${path}`, {
+export async function ejecutar(path, data, role) {
+  const r = await fetch(`${BASE}${path}`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body)
+    headers: { "Content-Type": "application/json", "x-role": role },
+    body: JSON.stringify({ ...data }) // opcionalmente también podrías incluir role en body
   });
   return r.json();
 }
 
+export async function getInterno(id) {
+  const r = await fetch(`${BASE}/api/interno/${encodeURIComponent(id)}`);
+  return r.json();
+}
+
+// Definición de acciones por rol (igual que tenías)
 export const acciones = {
   GUARDIA: [
-    { key:"ingresar", label:"Ingresar interno", path:"/ingresar", fields:["id","nombre","ubicacion","descripcion"] },
-    { key:"arribo", label:"Arribo a destino", path:"/arribo", fields:["id","ubicacion","descripcion"] }
+    { key: "ingresar", label: "Ingresar interno", path: "/api/ingresar", fields: ["id", "nombre", "ubicacion", "descripcion"] },
+    { key: "arribo", label: "Arribo a destino", path: "/api/arribo", fields: ["id", "ubicacion", "descripcion"] }
   ],
   ADMIN: [
-    { key:"traslado", label:"Ordenar traslado", path:"/traslado", fields:["id","destino","descripcion"] },
-    { key:"sancion",  label:"Aplicar sanción", path:"/sancion", fields:["id","motivo"] },
-    { key:"cumplir",  label:"Cumplir sanción", path:"/cumplir", fields:["id","detalle"] }
+    { key: "traslado", label: "Ordenar traslado", path: "/api/traslado", fields: ["id", "destino", "descripcion"] },
+    { key: "sancion", label: "Aplicar sanción", path: "/api/sancion", fields: ["id", "motivo"] },
+    { key: "cumplir", label: "Cumplir sanción", path: "/api/cumplir", fields: ["id", "detalle"] }
   ],
   SOCIAL: [
-    { key:"iniciar",   label:"Iniciar programa", path:"/iniciar-programa", fields:["id","programa"] },
-    { key:"finalizar", label:"Finalizar programa", path:"/finalizar-programa", fields:["id","resultado"] }
+    { key: "iniciar", label: "Iniciar programa", path: "/api/iniciar-programa", fields: ["id", "programa"] },
+    { key: "finalizar", label: "Finalizar programa", path: "/api/finalizar-programa", fields: ["id", "resultado"] }
   ],
   MEDICO: [
-    { key:"parte", label:"Registrar parte médico", path:"/parte-medico", fields:["id","informe"] } // <-- nuevo
+    { key: "parte", label: "Registrar parte médico", path: "/api/parte-medico", fields: ["id", "informe"] }
   ],
   JUEZ: [
-    { key:"liberar", label:"Liberar", path:"/liberar", fields:["id","resolucion"] }
+    { key: "liberar", label: "Liberar interno", path: "/api/liberar", fields: ["id", "resolucion"] }
   ]
 };
-
-
-export async function ejecutar(path, payload) { return post(path, payload); }

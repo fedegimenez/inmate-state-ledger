@@ -58,18 +58,31 @@ contract EventRegistry is AccessControl {
         uint8 estadoAsociado
     ) external onlyRole(LEDGER_ROLE) returns (uint256 id) {
         id = _nextId++;
+
+        // Detectar "vacío" y recalcular
+        bytes32 EMPTY = keccak256(bytes(""));
+        if (hashEvento == bytes32(0) || hashEvento == EMPTY) {
+            hashEvento = keccak256(
+                abi.encodePacked(
+                    idInternoHash, tipo, descripcion, tx.origin, block.timestamp, id
+                )
+            );
+        }
+
         _eventos[id] = Evento({
             id: id,
             idInternoHash: idInternoHash,
             tipo: tipo,
             descripcion: descripcion,
             fechaRegistro: block.timestamp,
-            rolEmisor: msg.sender,
-            hashEvento: hashEvento,
+            rolEmisor: tx.origin,          // <- actor humano
+            hashEvento: hashEvento,        // <- ahora único
             estadoAsociado: estadoAsociado
         });
+
         emit EventoRegistrado(id, idInternoHash, tipo, hashEvento);
     }
+
 
     function verEvento(uint256 id) external view returns (Evento memory) {
         return _eventos[id];

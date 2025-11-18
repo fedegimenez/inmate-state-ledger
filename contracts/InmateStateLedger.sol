@@ -78,7 +78,7 @@ contract InmateStateLedger is AccessControl {
         if (_inmates[idInternoHash].existe) revert InternoYaExiste();
         InmateRecord storage ir = _inmates[idInternoHash];
         ir.idInternoHash = idInternoHash;
-        ir.nombre = nombre;           // <-- nuevo
+        ir.nombre = nombre;          
         ir.estadoActual = Estado.INGRESADO;
         ir.ubicacionActual = ubicacionInicial;
         ir.existe = true;

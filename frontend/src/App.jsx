@@ -135,9 +135,10 @@ export default function App() {
 
   async function onRun(path) {
     setMsg("");
-    const res = await ejecutar(path, form);
+    const res = await ejecutar(path, form, rol);   // ← pasa el rol
     setMsg(res.error ? `Error: ${res.error}` : `OK: ${res.txHash}`);
   }
+
 
   async function buscar() {
     setMsg("");
