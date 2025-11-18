@@ -102,7 +102,7 @@ Asumiendo que hay un script de despliegue en `scripts/` (p. ej. `scripts/deploy.
 npx hardhat run --network localhost scripts/deploy.js
 ```
 
-- Si el script imprime la dirección del contrato al desplegar, anota esa dirección.
+- LOS HASHES para Ledger y para Event se sacan de acá para poner luego en el .env
 - Si el repositorio incluye scripts con nombres distintos, ajústalos en el comando: `npx hardhat run --network localhost scripts/<tu-script>.js`.
 
 Si no existe un script, puedes crear uno que use `ethers` para desplegar tus contratos. Ejemplo de despliegue (plantilla) — crea `scripts/deploy.js` si no existe:
@@ -133,14 +133,12 @@ Crea archivos `.env` para `backend` y `frontend` según necesites. Aquí hay eje
 
 backend/.env
 ```
-# URL del proveedor (Hardhat local)
 RPC_URL=http://127.0.0.1:8545
-# Privada de la cuenta que el backend usará (extraída de npx hardhat node)
-PRIVATE_KEY=0x...
-# Dirección del contrato desplegado
-CONTRACT_ADDRESS=0x...
-# Puerto donde correrá el backend
-PORT=3001
+MNEMONIC=test test test test test test test test test test test junk
+LEDGER_ADDRESS= ACTUALIZAR CON LO QUE MUESTRA EN EL DPLOY
+REGISTRY_ADDRESS=  ACTUALIZAR CON LO QUE MUESTRA EN EL DPLOY
+PORT=4000
+
 ```
 
 frontend/.env
@@ -205,18 +203,6 @@ El comando `dev` usa Vite y por defecto sirve la app en `http://localhost:5173` 
 
 ---
 
-## Conectar MetaMask a la red local (para probar el frontend con transacciones)
-
-1. Abre MetaMask → Ajustes → Redes → Añadir red.
-2. Datos de la red local:
-   - Nombre: Hardhat Local
-   - RPC URL: http://127.0.0.1:8545
-   - Chain ID: 31337 (o 1337 según tu `hardhat.config.js`)
-   - Símbolo: ETH (opcional)
-3. Importa una de las claves privadas mostradas en la salida de `npx hardhat node` (menú de cuentas en la terminal cuando inicias la node). Esto te permite firmar transacciones desde MetaMask con fondos de prueba.
-
----
-
 ## Flujo típico de desarrollo
 
 1. Levantar nodo local:
@@ -249,24 +235,3 @@ El comando `dev` usa Vite y por defecto sirve la app en `http://localhost:5173` 
 - El script de despliegue no encuentra contratos → revisar que el nombre usado en `getContractFactory("NombreDelContrato")` coincida con el archivo y el nombre del contrato compilado.
 - Si el backend necesita firmar transacciones, asegúrate de proporcionar una PRIVATE_KEY válida (una de las claves de `npx hardhat node` para pruebas locales).
 - Para ver cuentas y claves: `npx hardhat node` imprime cuentas y claves privadas en la salida de la terminal.
-
----
-
-## Sugerencias / mejoras
-- Añadir scripts de npm en `backend/package.json` (start, dev) para facilidad.
-- Añadir script `deploy` en root/package.json:
-```json
-"scripts": {
-  "deploy:local": "npx hardhat run --network localhost scripts/deploy.js"
-}
-```
-- Añadir documentación en `scripts/deploy.js` para imprimir contract address en JSON o archivo `.env.local` para facilitar integración con frontend/backend.
-
----
-
-Si necesitas, puedo:
-- Generar un ejemplo de `scripts/deploy.js` adaptado a los nombres de tus contratos.
-- Crear plantillas de `.env` listas para copiar.
-- Añadir scripts `start`/`dev` sugeridos para backend y root.
-
-Buen desarrollo!
